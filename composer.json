@@ -12,7 +12,7 @@
         "fideloper/proxy": "^4.4.1",
         "fruitcake/laravel-cors": "^2.0.3",
         "guzzlehttp/guzzle": "^7.0.1",
-        "laravel/framework": "^9.0",
+        "laravel/framework": "^8.0",
         "laravel/tinker": "^2.5|dev-develop"
     },
     "require-dev": {
@@ -48,7 +48,13 @@
     "prefer-stable": true,
     "scripts": {
         "setup": [
-            "composer install"
+            "composer install",
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
+            "@php artisan key:generate --ansi"
+        ],
+        "setup-vm": [
+            "@php artisan migrate",
+            "@php artisan passport:install"
         ],
         "homestead-mac": [
             "@php vendor/bin/homestead make"
