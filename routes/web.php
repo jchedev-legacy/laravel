@@ -13,12 +13,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/**
+ * Authentication routes (register, logic, verification)
+ */
 Auth::routes();
 
-Route::get('/', function () {
-    if (auth()->user()) {
-        return view('application');
-    } else {
-        return view('home');
-    }
-});
+/**
+ * GET route for easy logout
+ */
+Route::get('/logout', 'Auth\LoginController@logout');
+
+/**
+ * Home of the application
+ */
+Route::get('/', 'HomeController');
