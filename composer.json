@@ -8,13 +8,16 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^7.3|^8.0",
+        "php": "^7.3",
+        "ext-json": "*",
         "fideloper/proxy": "^4.4.1",
         "fruitcake/laravel-cors": "^2.0.3",
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.0",
         "laravel/sanctum": "^2.8",
-        "laravel/tinker": "^2.5|dev-develop"
+        "laravel/tinker": "^2.5|dev-develop",
+        "laravel/ui": "^3.1",
+        "jchedev/laravel-evolved": "dev-master"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
