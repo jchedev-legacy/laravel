@@ -2,6 +2,7 @@ import qs from "qs";
 import VueRouter from "vue-router";
 
 import routes from "~/includes/routes";
+import store from "~/includes/store";
 
 require('bootstrap');
 
@@ -44,5 +45,6 @@ if (document.getElementById('app')) {
                 return result ? ('?' + result) : '';
             },
         }),
+        store:  store,
     });
 }
