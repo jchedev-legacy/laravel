@@ -19,6 +19,14 @@ export default {
 
         /**
          *
+         * @returns {*|CancelTokenSource}
+         */
+        $_cancelSource() {
+            return api.cancelSource();
+        },
+
+        /**
+         *
          * @param response
          * @param options
          */
@@ -43,9 +51,10 @@ export default {
             let methodArguments = [];
             let cancelSource    = api.cancelSource();
 
-            callOptions         = callOptions || {};
+            callOptions = callOptions || {};
 
             // Look if action is an array ["method", argument 1, argument 2, ...] or just "method". We cannot use ...spread because of the last parameter :(
+
             if (typeof action === 'object') {
                 methodName      = action[0];
                 methodArguments = action.slice(1);
@@ -65,19 +74,20 @@ export default {
             // Check what to do with the attribute "options" (which should always be the last item of the method signature)
 
             if (method.length !== 0) {
-                let methodOptionsArgument = {};
-
-                methodOptionsArgument.cancelToken = cancelSource.token;
 
                 if (methodArguments.length > method.length) {
-                    // Why would we have more variables than the method expects? Seems like an error
-                    console.warn('there is more parameters than the methods allow');
+                    console.warn('there is more parameters than the methods signature expects');
                 } else if (methodArguments.length === method.length) {
-                    // "options" has been set already : we merge the new values with the existing ones
-                    methodArguments[methodArguments.length - 1] = _.merge(methodOptionsArgument, methodArguments[methodArguments.length - 1]);
+
+                    // "options" has been defined manually : we add (if necessary) the cancel token to it
+                    if (!methodArguments[methodArguments.length - 1].cancelToken) {
+                        methodArguments[methodArguments.length - 1].cancelToken = cancelSource.token;
+                    }
+
                 } else {
-                    // Add one more argument to the array with the default "options"
-                    methodArguments.push(methodOptionsArgument);
+
+                    // "options" must be added automatically to the call
+                    methodArguments.push({cancelToken: cancelSource.token});
                 }
             }
 
