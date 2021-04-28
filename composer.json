@@ -19,6 +19,12 @@
         "laravel/ui": "^3.1",
         "jchedev/laravel-evolved": "dev-master"
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/Jchedev/laravel-evolved"
+        }
+    ],
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
         "laravel/homestead": "^11.2",
@@ -52,13 +58,13 @@
     "prefer-stable": true,
     "scripts": {
         "setup": [
-            "composer install",
+            "composer update",
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
             "@php artisan key:generate --ansi"
         ],
         "setup-vm": [
             "@php artisan migrate",
-            "@php artisan passport:install"
+            "@npm install"
         ],
         "homestead-mac": [
             "@php vendor/bin/homestead make"
