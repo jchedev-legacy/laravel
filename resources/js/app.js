@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import qs from "qs";
 import VueRouter from "vue-router";
 
@@ -48,3 +49,6 @@ if (document.getElementById('app')) {
         store:  store,
     });
 }
+=======
+require('./bootstrap');
+>>>>>>> laravel/8.x

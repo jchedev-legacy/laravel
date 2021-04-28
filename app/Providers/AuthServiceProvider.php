@@ -27,13 +27,11 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        // Passport::routes();
-
         $this->enableAuthenticateAs();
     }
 
     /**
-     *
+     * Enable simple authentication on the api with ?authenticate_as=XX
      */
     protected function enableAuthenticateAs()
     {
