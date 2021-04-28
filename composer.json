@@ -12,7 +12,6 @@
         "guzzlehttp/guzzle": "^7.0.1",
         "jchedev/laravel-evolved": "dev-master",
         "laravel/framework": "^8.12",
-        "laravel/homestead": "^11.2",
         "laravel/sanctum": "^2.8",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.2"
@@ -21,6 +20,7 @@
         "facade/ignition": "^2.5",
         "fakerphp/faker": "^1.9.1",
         "laravel/sail": "^1.0.1",
+        "laravel/homestead": "^11.2",
         "mockery/mockery": "^1.4.2",
         "nunomaduro/collision": "^5.0",
         "phpunit/phpunit": "^9.3.3"
