@@ -47,11 +47,12 @@
         "setup": [
             "composer update",
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
-            "@php artisan key:generate --ansi"
+            "@php artisan key:generate --ansi",
+            "npm install",
+            "npm run prod"
         ],
         "setup-vm": [
-            "@php artisan migrate",
-            "@npm install"
+            "@php artisan migrate"
         ],
         "homestead-mac": [
             "@php vendor/bin/homestead make"
