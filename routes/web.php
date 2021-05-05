@@ -27,3 +27,5 @@ Route::get('/logout', 'Auth\LoginController@logout');
  * Home of the application
  */
 Route::get('/', 'HomeController');
+
+// Route::view('{any}', 'application')->where('any', '.*')->middleware('auth');
