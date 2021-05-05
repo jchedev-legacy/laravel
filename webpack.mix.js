@@ -21,7 +21,10 @@ mix.webpackConfig({
 });
 
 
-mix.js('resources/js/app.js', 'public/js').vue();
+mix.js('resources/js/app.js', 'public/js').vue({
+    extractStyles: true,
+    globalStyles:  __dirname + '/resources/sass/_vue_includes.scss'
+});
 
 mix.sass('resources/sass/app.scss', 'public/css');
 
