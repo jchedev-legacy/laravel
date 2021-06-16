@@ -188,12 +188,12 @@ class Controller extends BaseController
     {
         if (!is_null($filters = request()->filters) && (is_array($filters) || is_array($filters = json_decode($filters, true)))) {
             foreach ($filters as $key => $value) {
-                if (empty($value)) {
+                if (empty($value) && $value !== false) {
                     unset ($filters[$key]);
                 }
-
-                return $filters;
             }
+
+            return $filters;
         }
 
         return [];
