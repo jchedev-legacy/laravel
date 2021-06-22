@@ -35,10 +35,14 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected function enableAuthenticateAs()
     {
-        if (App::environment() == 'local' && request()->has('authenticate_as') && strstr(request()->path(), 'api/')) {
+        if (App::environment() == 'local' && request()->has('authenticate_as')) {
             $user = User::findOrFail(request()->authenticate_as);
 
-            Auth::guard('api')->setUser($user);
+            if (strstr(request()->path(), 'api/')) {
+                Auth::guard('api')->setUser($user);
+            } else {
+                Auth::guard('web')->login($user);
+            }
         }
     }
 }
