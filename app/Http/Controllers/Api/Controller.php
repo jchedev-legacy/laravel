@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller as BaseController;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Validator;
 use Jchedev\Laravel\Classes\Pagination\ByOffsetLengthAwarePaginator;
 use Jchedev\Laravel\Classes\Selectors\Selector;
@@ -15,7 +15,11 @@ class Controller extends BaseController
 
     const NO_INCLUDES = 'none';
 
-    protected $pageSize = 25;
+    protected $defaultSort = null;
+
+    protected $defaultFilters = [];
+
+    protected $pageSize = 30;
 
     protected $pageSizeMax = 100;
 
@@ -128,6 +132,21 @@ class Controller extends BaseController
     }
 
     /**
+     * @param $on
+     * @param array $includes
+     */
+    protected function applyIncludes($on, array $includes)
+    {
+        $asCollection = $this->asCollection($on);
+
+        foreach ($this->getIncludesOptions() as $key => $closure) {
+            if (in_array($key, $includes)) {
+                $closure($asCollection);
+            }
+        }
+    }
+
+    /**
      * @param $response
      * @return mixed
      */
@@ -163,9 +182,35 @@ class Controller extends BaseController
     {
         $selector = new Selector($builder, $this->getFilteringOptions(), $this->getSortingOptions());
 
-        $selector->setFilters($this->requestFilters());
+        $filters = array_merge($this->defaultFilters, $this->requestFilters());
 
-        $selector->setSorts($this->requestSorts());
+        $selector->setFilters($filters);
+
+        if (count($sort = $this->requestSorts()) === 0 && !is_null($this->defaultSort)) {
+            $sort = (array)$this->defaultSort;
+        }
+
+        $selector->setSorts($sort);
+
+        return $selector;
+    }
+
+    /**
+     * @param $builder
+     * @return mixed
+     */
+    protected function queryAll($builder)
+    {
+        return $this->selector($builder)->get();
+    }
+
+    /**
+     * @param $builder
+     * @return \Jchedev\Laravel\Classes\Pagination\ByOffsetLengthAwarePaginator
+     */
+    protected function paginate($builder)
+    {
+        $selector = $this->selector($builder);
 
         if (!is_null($limit = $this->requestLimit())) {
             $selector->setLimit($limit);
@@ -175,7 +220,7 @@ class Controller extends BaseController
             }
         }
 
-        return $selector;
+        return $selector->paginateByOffset();
     }
 
     /**
@@ -187,6 +232,7 @@ class Controller extends BaseController
     protected function requestFilters()
     {
         if (!is_null($filters = request()->filters) && (is_array($filters) || is_array($filters = json_decode($filters, true)))) {
+
             foreach ($filters as $key => $value) {
                 if (empty($value) && $value !== false) {
                     unset ($filters[$key]);
@@ -286,31 +332,6 @@ class Controller extends BaseController
     }
 
     /**
-     * @param $on
-     * @param array $includes
-     */
-    protected function applyIncludes($on, array $includes)
-    {
-        if ($on instanceof ByOffsetLengthAwarePaginator) {
-            $on = $on->getCollection();
-        }
-
-        if (!is_a($on, Collection::class)) {
-            if ($on instanceof Model) {
-                $on = $on->newCollection([$on]);
-            } else {
-                $on = new Collection([$on]);
-            }
-        }
-
-        foreach ($this->getIncludesOptions() as $key => $closure) {
-            if (in_array($key, $includes)) {
-                $closure($on);
-            }
-        }
-    }
-
-    /**
      * @return array
      */
     protected function getFilteringOptions(): array
@@ -324,5 +345,26 @@ class Controller extends BaseController
     protected function getSortingOptions(): array
     {
         return [];
+    }
+
+    /**
+     * @param $on
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    private function asCollection($on)
+    {
+        if ($on instanceof ByOffsetLengthAwarePaginator) {
+            $on = $on->getCollection();
+        }
+
+        if (!is_a($on, Collection::class)) {
+            if ($on instanceof Model) {
+                $on = $on->newCollection([$on]);
+            } else {
+                $on = new Collection([$on]);
+            }
+        }
+
+        return $on;
     }
 }
