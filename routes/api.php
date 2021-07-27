@@ -15,6 +15,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'auth:api'], function () {
 
+    /**
+     * Account details
+     */
+    Route::get('account', 'AccountController@show');
 });
 
 Route::any('{any}', 'Controller@notFound')->where('any', '.*');

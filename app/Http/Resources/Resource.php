@@ -13,6 +13,8 @@ class Resource extends \Jchedev\Laravel\Http\Resources\Resource
 
     protected $onlyAttributes = null;
 
+    protected $exceptAttributes = [];
+
     /**
      * @param \Illuminate\Http\Request $request
      * @return array
@@ -62,7 +64,7 @@ class Resource extends \Jchedev\Laravel\Http\Resources\Resource
         $finalAttributes = [];
 
         foreach ($attributes as $key => $value) {
-            if (is_null($this->onlyAttributes) || in_array($key, $this->onlyAttributes)) {
+            if (!in_array($key, $this->exceptAttributes) && (is_null($this->onlyAttributes) || in_array($key, $this->onlyAttributes))) {
                 $finalAttributes[$key] = ($value instanceof \Closure) ? $value() : $value;
             }
         }
@@ -97,6 +99,17 @@ class Resource extends \Jchedev\Laravel\Http\Resources\Resource
         $this->onlyAttributes = !is_array($keys) ? [$keys] : $keys;
 
         $this->withRelated = $includeRelated;
+
+        return $this;
+    }
+
+    /**
+     * @param $keys
+     * @return $this
+     */
+    public function except($keys)
+    {
+        $this->exceptAttributes = array_merge($this->exceptAttributes, (array)$keys);
 
         return $this;
     }

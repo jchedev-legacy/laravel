@@ -3,6 +3,17 @@ import ApiResponse from "~/objects/ApiResponse";
 
 export default {
     /**
+     *
+     * @param options
+     * @returns {*|Promise<AxiosResponse<T>>}
+     */
+    getAccount(options) {
+        return this.get('account', options);
+    },
+
+    /* Helpers methods */
+
+    /**
      * Method used to call an endpoint AND run the shared logic on the response
      * @param methodName
      * @param methodParams

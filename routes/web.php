@@ -19,6 +19,11 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 /**
+ * 404 page to be used by front-end through redirection
+ */
+Route::get('/not-found', 'Controller@notFound');
+
+/**
  * GET route for easy logout
  */
 Route::get('/logout', 'Auth\LoginController@logout');
