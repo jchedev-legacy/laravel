@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\AccountController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +14,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+/*
+ * These endpoints require user authentication to continue
+ */
+Route::middleware('auth:api')->group(function () {
+
+    // Return info about the authenticated user
+    Route::get('account', [AccountController::class, 'show']);
 });
+
+// Catch all to return a proper 404 on pages not found / invalid endpoints
+Route::any('{any}', [App\Http\Controllers\Controller::class, 'notFound'])->where('any', '.*');

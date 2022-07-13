@@ -17,4 +17,4 @@ yarn-error.log
 after.sh
 aliases
 Vagrantfile
-.vagrant/
+/.vagrant
