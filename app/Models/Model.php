@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-abstract class Model extends \Illuminate\Database\Eloquent\Model
+abstract class Model extends \Jchedev\Laravel\Eloquent\Models\Model
 {
     /**
      * By default, we don't guard any fields, but it can be overwritten on each model if necessary
