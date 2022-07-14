@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -14,20 +15,32 @@ class Controller extends BaseController
     /**
      * Helper to return the request user
      *
-     * @return mixed
+     * @return \App\Models\User|null
      */
-    public function user()
+    public function user(): ?User
     {
         return request()->user();
     }
 
     /**
-     * Helper to return a Not Found response
+     * Helper to return a Not Found (404) response
      *
+     * @param $message
      * @return void
      */
-    public function notFound()
+    public function notFound($message = null): void
     {
-        abort(404, 'Page Not Found');
+        abort(404, $message ?: 'Page Not Found');
+    }
+
+    /**
+     * Helper to return an Unauthorized (403) response
+     *
+     * @param $message
+     * @return void
+     */
+    public function unauthorized($message = null): void
+    {
+        abort(403, $message ?: 'Unauthorized');
     }
 }

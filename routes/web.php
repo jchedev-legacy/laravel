@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -14,7 +15,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Home is a static page presenting the website (see logic if auth VS not-auth)
+/*
+ * 404 page to be used by front-end through redirection
+ */
+Route::get('/unauthorized', [Controller::class, 'unauthorized']);
+
+/*
+ * 404 page to be used by front-end through redirection
+ */
+Route::get('/not-found', [Controller::class, 'notFound']);
+
+/*
+ * Home is a static page presenting the website (see logic if auth VS not-auth)
+ */
 Route::get('/', HomeController::class);
 
-// Route::view('{any}', 'application')->where('any', '.*')->middleware('auth');
+/*
+ * Catch-all to redirect to the Vue application
+ */
+// todo : Route::view('{any}', 'application')->where('any', '.*')->middleware('auth');
