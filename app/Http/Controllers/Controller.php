@@ -25,22 +25,20 @@ class Controller extends BaseController
     /**
      * Helper to return a Not Found (404) response
      *
-     * @param $message
      * @return void
      */
-    public function notFound($message = null): void
+    public function notFound(): void
     {
-        abort(404, $message ?: 'Page Not Found');
+        abort(404, 'Page Not Found');
     }
 
     /**
      * Helper to return an Unauthorized (403) response
      *
-     * @param $message
      * @return void
      */
-    public function unauthorized($message = null): void
+    public function unauthorized(): void
     {
-        abort(403, $message ?: 'Unauthorized');
+        abort(403, 'Unauthorized');
     }
 }
