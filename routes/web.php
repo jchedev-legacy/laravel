@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Home is a static page presenting the website (see logic if auth VS not-auth)
+Route::get('/', HomeController::class);
+
+// Route::view('{any}', 'application')->where('any', '.*')->middleware('auth');
