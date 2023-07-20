@@ -45,9 +45,6 @@
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
             "@php artisan key:generate --ansi"
         ],
-        "setup-vm": [
-            "@php artisan migrate"
-        ],
         "homestead-mac": [
             "@php vendor/bin/homestead make"
         ],
