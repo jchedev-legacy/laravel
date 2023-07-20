@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
+use App\Models\User;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -21,6 +22,22 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        $this->enableAuthenticateAs();
+    }
+
+    /**
+     * @return void
+     */
+    protected function enableAuthenticateAs()
+    {
+        if (app()->environment('local') && request()->has('authenticate_as')) {
+            $user = User::findOrFail(request()->authenticate_as);
+
+            if (str_starts_with(request()->path(), 'api/')) {
+                auth('api')->setUser($user);
+            } else {
+                auth('web')->login($user);
+            }
+        }
     }
 }
