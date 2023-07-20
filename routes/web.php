@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/*
+ * 404 page to be used by front-end through redirection
+ */
+Route::get('/unauthorized', [Controller::class, 'unauthorized']);
+
+/*
+ * 404 page to be used by front-end through redirection
+ */
+Route::get('/not-found', [Controller::class, 'notFound']);
+
+/*
+ * Homepage of the application
+ */
 Route::get('/', function () {
     return view('home');
 });
