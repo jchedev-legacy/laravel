@@ -2,8 +2,12 @@ name: update changelog
 
 on:
   release:
-    types: [released]
+    types: [ released ]
+
+permissions: { }
 
 jobs:
   update:
+    permissions:
+      contents: write
     uses: laravel/.github/.github/workflows/update-changelog.yml@main

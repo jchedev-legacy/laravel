@@ -8,11 +8,11 @@ use Illuminate\Http\Resources\MissingValue;
 
 class Resource extends \Jchedev\Laravel\Http\Resources\Resource
 {
-    protected $withRelated = true;
+    protected array|bool $withRelated = true;
 
-    protected $onlyAttributes = null;
+    protected array|null $onlyAttributes = null;
 
-    protected $exceptAttributes = [];
+    protected array $exceptAttributes = [];
 
     /**
      * @param $request

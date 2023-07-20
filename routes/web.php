@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -10,8 +9,8 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 |
 | Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
+| routes are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "web" middleware group. Make something great!
 |
 */
 
@@ -26,11 +25,8 @@ Route::get('/unauthorized', [Controller::class, 'unauthorized']);
 Route::get('/not-found', [Controller::class, 'notFound']);
 
 /*
- * Home is a static page presenting the website (see logic if auth VS not-auth)
+ * Homepage of the application
  */
-Route::get('/', HomeController::class);
-
-/*
- * Catch-all to redirect to the Vue application
- */
-// todo : Route::view('{any}', 'application')->where('any', '.*')->middleware('auth');
+Route::get('/', function () {
+    return view('home');
+});
